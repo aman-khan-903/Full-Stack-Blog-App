@@ -8,7 +8,7 @@ import {Button, Input, Logo} from './index';
 
 function SignUp() {
 
-    const navigate= useNavigate(); 
+    const navigate = useNavigate(); 
     const dispatch= useDispatch(); 
     const {register , handleSubmit}= useForm(); 
     const [error, setError] = useState(); 
@@ -40,7 +40,7 @@ function SignUp() {
             <p className='mt-2 text-center text-base text-black/60'>
                 Already have an account?&nbsp;
                 <Link 
-                    to="/signup"
+                    to="/login  "
                     className='font-medium text-primary transition-all duration-200 hover:underline'
                 >
                     Sign In

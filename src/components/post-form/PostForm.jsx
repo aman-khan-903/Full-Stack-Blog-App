@@ -12,12 +12,12 @@ function PostForm({ post }) {
         title: post?.title || "",
         slug: post?.slug || "",
         content: post?.content || "",
-        status: post.status || "active",
+        status: post?.status || "active",
       },
     });
 
   const navigate = useNavigate();
-  const userData = useSelector((state) => state.user.userData);
+  const userData = useSelector((state) => state.auth.userData);
 
   const submit = async (data) => {
     if (post) {
@@ -33,10 +33,10 @@ function PostForm({ post }) {
         ...data,
         featuredImage: file ? file.$id : undefined,
 
-        if(dbPost) {
-          navigate(`/post/${dbPost.$id}`);
-        },
       });
+      if(dbPost) {
+        navigate(`/post/${dbPost.$id}`);
+      }
     } else {
       // const file = await appwriteService.uploadFile(data.image[0]);
       const file = data.image[0]
@@ -46,10 +46,13 @@ function PostForm({ post }) {
       if (file) {
         const fileId = file.$id;
         data.featuredImage = fileId;
+        console.log(userData);
+        console.log(data.title);
         const dbPost = await appwriteService.createPost({
           ...data,
-          userId: userData.$id,
+          userId: "66a3c24d4791cd449415",
         });
+        console.log(dbPost);
         if (dbPost) {
           navigate(`post/${dbPost.$id}`);
         }
@@ -66,22 +69,20 @@ function PostForm({ post }) {
         return value
             .trim()
             .toLowerCase()
-            .replace(/^[a-zA-z\d\s]+/g, '-')
-            .replace(/\s/g, '-'); 
+            .replace(/[^a-zA-z\d\s]+/g, "-")
+            .replace(/\s/g, "-"); 
 
-        return ''
+        return ""
   }, [])
 
   React.useEffect(()=>{
     const subscription = watch((value, {name})=>{
-        if(name === 'title'){
+        if(name === "title"){
             setValue('slug', slugTransform(value.title, {shouldValidate:true}))
         }
     })
 
-    return ()=>{
-        subscription.unsubscribe(); 
-    }
+    return ()=>subscription.unsubscribe();
   },[watch, slugTransform, setValue])
 
   return (

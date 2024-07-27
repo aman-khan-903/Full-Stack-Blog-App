@@ -10,26 +10,25 @@ export class AuthService {
             .setEndpoint(config.appwriteUrl)
             .setProject(config.appwriteProjectId);
         this.account = new Account(this.client);
-            
     }
 
     async createAccount({email, password, name}) {
-        try {
-            const userAccount = await this.account.create(ID.unique(), email, password, name);
-            if (userAccount) {
-                // call another method
-                return this.login({email, password});
-            } else {
-               return  userAccount;
+        try{
+            const userAccount = await this.account.create(ID.unique(), email, password, name); 
+            if(userAccount){
+                return this.login({email, password}); 
+            }else{
+                return userAccount; 
             }
-        } catch (error) {
-            console.log("Appwrite serive :: createAccount :: error", error);
+        }catch(error){
+            console.log("Appwrite service :: createAccount :: error :: ", error);
         }
     }
 
     async login({email, password}) {
         try {
-            return await this.account.createEmailSession(email, password);
+            const userData=  await this.account.createEmailPasswordSession(email, password);
+            console.log(userData);
         } catch (error) {
             console.log("Appwrite serive :: login :: error", error);
         }

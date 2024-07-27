@@ -5,13 +5,14 @@ import { Controller } from "react-hook-form";
 export default function RTE({ name, control, label, defaultValue = "" }) {
   return (
     <div className="w-full">
-      {label && <labe className="inline-block mb-1 pl-1">{label}</labe>}
+      {label && <label className="inline-block mb-1 pl-1">{label}</label>}
 
       <Controller
       name={name || "content"}
       control={control}
       render={({field:{onChange}})=>(
         <Editor
+        apiKey='o5ze9n4dfr7ii47nslqepfp4bk5i3zzwzfbvlw75nx4ceqq2'
         initialValue={defaultValue}
         init={{
             initialValue: defaultValue,
@@ -40,7 +41,7 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
                 "anchor",
             ],
             toolbar:
-            "undo redo | blocks | image | bold italic forecolor | alignleft aligncenter bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |removeformat | help",
+            "undo redo | blocks | image | bold italic forecolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |removeformat | help",
             content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }"
         }}
         onEditorChange={onChange}

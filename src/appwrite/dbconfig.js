@@ -1,11 +1,11 @@
 import config from "../config/config";
-
 import { Client, ID , Databases, Storage, Query } from "appwrite";
+
 
 export class Service{
     client = new Client(); 
     databases; 
-    storage; 
+    bucket; // bucket = storage
 
     constructor (){
         this.client
@@ -22,11 +22,11 @@ export class Service{
                 config.appwriteCollectionId, 
                 slug, 
                 {
-                    title, 
                     content, 
                     featuredImage, 
                     status, 
-                    userId
+                    userId,
+                    title
                 }
             )
         } catch (error) {
@@ -34,7 +34,7 @@ export class Service{
         }
     }
 
-    async updatePost( slug,{title, content, featuredImage, status, userId}){
+    async updatePost( slug,{title, content, featuredImage, status}){
         try {
             return await this.databases.updateDocument(
                 config.appwriteDatabaseId, 
@@ -84,12 +84,10 @@ export class Service{
             return await this.databases.listDocuments(
                 config.appwriteDatabaseId, 
                 config.appwriteCollectionId, 
-                [
-                    queries
-                ]
+                queries,
             )
         } catch (error) {
-            console.log("appwrite docuemtn :: getPosts :: error :: "+error);
+            console.log("appwrite documents :: getPosts :: error :: "+error);
         }
     }
 
