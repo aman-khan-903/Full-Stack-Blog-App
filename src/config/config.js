@@ -2,6 +2,7 @@
 // sometimes if value contains only numbers like appwrite_url contains some characters , if it doesn't contains chars it may get fails bcoz it may treat it like number
 // so basically it will definitely return string value
 
+// and when app load it will get all the values from .env and hold them
 // console.log(import.meta.env.VITE_APPWRITE_URL);
 
 

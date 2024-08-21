@@ -10,7 +10,7 @@ function PostForm({ post }) {
     useForm({
       defaultValues: {
         title: post?.title || "",
-        slug: post?.slug || "",
+        slug: post?.$id || "",
         content: post?.content || "",
         status: post?.status || "active",
       },
@@ -38,10 +38,10 @@ function PostForm({ post }) {
         navigate(`/post/${dbPost.$id}`);
       }
     } else {
-      // const file = await appwriteService.uploadFile(data.image[0]);
-      const file = data.image[0]
-        ? appwriteService.uploadFile(data.image[0])
-        : null;
+      const file = await appwriteService.uploadFile(data.image[0]);
+      // const file = data.image[0]
+      //   ? appwriteService.uploadFile(data.image[0])
+      //   : null;
 
       if (file) {
         const fileId = file.$id;
@@ -54,7 +54,7 @@ function PostForm({ post }) {
         });
         console.log(dbPost);
         if (dbPost) {
-          navigate(`post/${dbPost.$id}`);
+          navigate(`/post/${dbPost.$id}`);
         }
       }
     }

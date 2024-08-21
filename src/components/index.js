@@ -12,6 +12,8 @@ import PostForm from '../components/post-form/PostForm'
 import PostCard from './PostCard'; 
 import AuthLayout from './AuthLayout'; 
 import Button from './Button'; 
+import { MdOutlineLightMode } from "react-icons/md";
+import { MdOutlineDarkMode } from "react-icons/md";
 
 
 export {
@@ -29,4 +31,7 @@ export {
     PostCard,
     AuthLayout, 
     Button,
+    MdOutlineLightMode,
+    MdOutlineDarkMode,
+
 }

@@ -5,14 +5,25 @@ import authservice from './appwrite/auth';
 import {login, logout} from './store/authSlice'; 
 import { Footer, Header } from './components';
 import { Outlet } from 'react-router-dom';
+import { ThemeProvider } from './context/themeContext';
+import Loader from './components/Loader';
 
 
 function App() {
-  // console.log(config.appwriteBucketId);
-  // console.log(config.appwriteCollectionId);
-  // console.log(config.appwriteDatabaseId);
-  // console.log(config.appwriteProjectId);
-  // console.log(config.appwriteUrl);
+
+  const [theme, setTheme]= useState("light"); 
+
+  const lightTheme= () =>{
+    setTheme("light"); 
+  }
+  const darkTheme= () =>{
+    setTheme("dark"); 
+  }
+
+  useEffect(()=>{
+    document.querySelector('html').classList.remove("light", "dark"); 
+    document.querySelector('html').classList.add(theme); 
+  }, [theme]); 
   
   const [loading, setLoading] = useState(true); 
   const dispatch = useDispatch(); 
@@ -33,17 +44,20 @@ function App() {
 
   
 
-  if(loading) return <div>Loading...</div>
+  if(loading) return <div><Loader/></div>
 
   return (
-    <div className='min-h-screen flex flex-wrap content-between bg-gray-400'>
-      <div className='w-full block'>
+    <div className='min-h-screen flex flex-wrap content-between '>
+    <ThemeProvider value= {{theme, lightTheme, darkTheme}}>
+
+      <div className='w-screen block dark:bg-slate-900 dark:text-white  '>
         <Header/>
         <main>
           <Outlet/>
         </main>
         <Footer/>
       </div>
+    </ThemeProvider>
     </div>
   )
 }

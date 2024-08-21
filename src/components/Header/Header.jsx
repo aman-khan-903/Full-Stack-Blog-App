@@ -1,11 +1,21 @@
-import React, { act } from 'react'
-import {Container, Logo, LogoutBtn} from '../index'; 
+import React from 'react'
+import {Container, Logo, LogoutBtn, MdOutlineDarkMode, MdOutlineLightMode} from '../index'; 
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import useTheme from '../../context/themeContext';
 
 const Header = () => {
 
   const authStatus= useSelector((state)=>state.auth.status); 
+  const {theme, lightTheme, darkTheme } = useTheme();
+
+  const themeHandler= () =>{
+    if(theme === 'light'){
+      darkTheme();
+    }else{
+      lightTheme();
+    }
+  }
 
   const navigate = useNavigate(); 
 
@@ -38,15 +48,18 @@ const Header = () => {
     }
   ]
   return (
-    <header className='py-3 shadow bg-gray-500'>
+    <header className='py-3 shadow font-semibold dark:bg-slate-900 dark:text-white rounded-md'>
       <Container>
-        <nav className='flex'>
+        <nav className='flex justify-between'>
+
+          {/* Logo */}
           <div className='mr-4'>
             <Link to='/'>
               <Logo width='70px'/>
             </Link>
           </div>
 
+          {/* navlinks */}
           <ul className='flex ml-auto'>
             {navItems.map((item) => 
               item.active ? (
@@ -55,13 +68,20 @@ const Header = () => {
                 </li>
               ) : null
             )}
-
-            {authStatus && (
-              <li>
-                <LogoutBtn/>
-              </li>
-            )}
           </ul>
+
+          {/* themeButton */}
+          <div className='ml-4 flex items-center'>
+            <button onClick={themeHandler} className='p-2 bg-slate-300 rounded-full'>{theme==="light" ? <MdOutlineDarkMode/> : <MdOutlineLightMode/>} </button>
+          </div>
+          
+          {/* login/logout button */}
+          <div>
+            {authStatus && (
+                <LogoutBtn/>
+            )}
+          </div>
+
         </nav>
       </Container>
     </header>

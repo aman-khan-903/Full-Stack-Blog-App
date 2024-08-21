@@ -9,19 +9,22 @@ export default function Post() {
     const [post, setPost] = useState(null);
     const { slug } = useParams();
     const navigate = useNavigate();
-
+    
+        useEffect(() => {
+            if (slug) {
+                appwriteService.getPost(slug).then((post) => {
+                    console.log(post);
+                    if (post) setPost(post);
+                    else navigate("/");
+                });
+            } else navigate("/");
+        }, [slug, navigate]);
+    
     const userData = useSelector((state) => state.auth.userData);
 
-    const isAuthor = post && userData ? post.userId === userData.$id : false;
-
-    useEffect(() => {
-        if (slug) {
-            appwriteService.getPost(slug).then((post) => {
-                if (post) setPost(post);
-                else navigate("/");
-            });
-        } else navigate("/");
-    }, [slug, navigate]);
+    const permissions = post?.$permissions;
+    const userId = permissions ? permissions[0].match(/user:([^\)"]+)/)[1] : null;
+    const isAuthor = post && userData ? userId === userData.$id : false;
 
     const deletePost = () => {
         appwriteService.deletePost(post.$id).then((status) => {
